@@ -17,6 +17,8 @@ const hello = (name: string): Person => {
   return { name: 'titi', age: 20 };
 };
 
+hello('titi');
+
 // union type of two species
 type CatSpecies = 'lion' | 'tabby';
 
@@ -33,9 +35,69 @@ class Cat implements CatInterface {
   }
 }
 
-const lion = new Cat('lion');
+const lion = new Cat('tabby');
 console.log(lion.speak());
 // ROAR
+
+class Coucou {
+  constructor(private _name: string) {}
+  get name() {
+    return this._name;
+  }
+}
+
+const coucou = new Coucou('toto');
+console.log('name', coucou.name);
+
+enum Enum {
+  S1 = 0,
+  S2 = 'string',
+  S3 = 'c',
+}
+
+type Dyn = boolean | Enum | number;
+
+let test: Dyn[] = [Enum.S1, Enum.S2, Enum.S3, false, 10];
+
+console.log('test', test);
+test.forEach((t) => console.log('t', t, typeof t));
+
+interface labelValue {
+  label: string;
+  value: Dyn;
+}
+
+const mySet1: labelValue[] = [
+  { label: 'myBool1', value: false },
+  { label: 'myNumber', value: 123 },
+  { label: 'myEnumS2', value: Enum.S2 },
+  { label: 'myEnumS3', value: Enum.S3 },
+  { label: 'myBool2', value: true },
+];
+const mySet2: labelValue[] = [
+  { label: 'myBool1', value: false },
+  { label: 'myEnumS3', value: Enum.S3 },
+  { label: 'myBool2', value: true },
+];
+
+const panel1 = {
+  panel: 'Panel1',
+  mySet1,
+};
+
+const panel2 = {
+  panel: 'Panel2',
+  mySet2,
+};
+
+mySet1.forEach((ms) => console.log('key/value', ms.label, ms.value));
+
+const myBooleans = mySet1.filter((ms) => 'boolean' === typeof ms.value);
+console.log('myBooleans', myBooleans);
+console.log(
+  'myBooleans stringified',
+  myBooleans.map((fm) => `boolean with label ${fm.label} and value ${fm.value}`)
+);
 
 // To learn more about the language, click above in "Examples" or "What's New".
 // Otherwise, get started by removing these comments and the world is your playground.
